@@ -6,14 +6,6 @@ const db = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   dialect: "mysql",
   operatorAlias: false,
   logging: false,
-  pool: {
-    max: 5,
-    idle: 30000,
-    acquire: 60000,
-  },
-  dialectOptions: {
-    socketPath: "/Applications/MAMP/tmp/mysql/mysql.sock",
-  },
 });
 
 db.authenticate()
