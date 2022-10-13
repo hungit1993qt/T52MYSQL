@@ -1,5 +1,7 @@
-const { Store, Client } = require("../model/model");
-
+const model = require("../model/model");
+const Store = model.Store;
+const Client = model.Client;
+const Sequelize = require("sequelize");
 const storeController = {
   addStore: async (req, res) => {
     try {
@@ -12,7 +14,21 @@ const storeController = {
   },
   getAllStore: async (req, res) => {
     try {
-      const store = await Store.find().populate("clients");
+      const store = await Store.findAll({
+        attributes: [
+          "id",
+          "name",
+          "email",
+          "phone",
+          "idMap",
+          "street",
+          "district",
+          "province",
+        ],
+        //   include: { model: model.Address,
+        //     attributes:["id","Street","district","province"]
+        //  },
+      });
       res.status(200).json(store);
     } catch (error) {
       res.status(500).json(error);
@@ -20,13 +36,12 @@ const storeController = {
   },
   findStore: async (req, res) => {
     try {
-      const store = await Store.find({
-        $or: [
-          {
-            name: { $regex: req.params.key },
-          },
-        ],
-      }).populate("clients");
+      let resultSearch = req.params.key;
+      const store = await Store.findAndCountAll({
+        where: {
+          name: { [Sequelize.Op.like]: "%" + resultSearch + "%" },
+        },
+      });
       res.status(200).json(store);
     } catch (error) {
       res.status(500).json(error);
@@ -34,16 +49,16 @@ const storeController = {
   },
   findStoreDetail: async (req, res) => {
     try {
-      const store = await Store.findById(req.params.id).populate("clients");
-      res.status(200).json(store);
+      const storeDetail = await Store.findByPk(req.params.id);
+      res.status(200).json(storeDetail);
     } catch (error) {
       res.status(500).json(error);
     }
   },
   updateStore: async (req, res) => {
     try {
-      const store = await Store.findById(req.params.id);
-      await store.updateOne({ $set: req.body });
+      const store = await Store.findByPk(req.params.id);
+      await store.update(req.body);
       res.status(200).json("Update successfuly");
     } catch (error) {
       res.status(500).json(error);
@@ -51,9 +66,9 @@ const storeController = {
   },
   deleteStore: async (req, res) => {
     try {
-      await Client.updateMany({ store: req.params.id }, { store: null });
-      await Store.findByIdAndDelete(req.params.id);
-      res.status(200).json("Delete successfully");
+      const store = await Store.findByPk(req.params.id);
+      await store.destroy();
+      res.status(200).json("Delete successfuly");
     } catch (error) {
       res.status(500).json(error);
     }

@@ -1,60 +1,74 @@
-const { Partner } = require("../model/model");
+const model = require("../model/model");
+const Partners = model.Partner;
+const Sequelize = require("sequelize");
 const partnerController = {
-  addPartner: async (req, res) => {
+  addPartners: async (req, res) => {
     try {
-      const newPartner = new Partner(req.body);
-      if (req.file) {
-        newPartner.img =
-          "https://t52-loan-nodejs.herokuapp.com/" + req.file.path;
-      }
-      const savedPartner = await newPartner.save();
-      res.status(200).json(savedPartner);
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  },
-  getAllPartner: async (req, res) => {
-    try {
-      const store = await Partner.find().sort({ createdAt: -1 });
-      res.status(200).json(store);
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  },
-  findPartner: async (req, res) => {
-    try {
-      const store = await Partner.find({
-        $or: [
-          {
-            name: { $regex: req.params.key },
-          },
-        ],
+      const newPartners = new Partners({
+        name: req.body.name,
       });
-      res.status(200).json(store);
+      if (req.file) {
+        newPartners.img = "http://localhost:8080/" + req.file.path;
+      }
+      const savedPartners = await newPartners.save();
+      res.json({ savedPartners });
+    } catch (error) {
+      res.json(error);
+    }
+  },
+  getAllPartners: async (req, res) => {
+    try {
+      const allPartners = await Partners.findAll();
+      res.json({ allPartners });
+    } catch (error) {
+      res.json(error);
+    }
+  },
+  findPartners: async (req, res) => {
+    try {
+      let resultSearch = req.params.key;
+      const PartnersByName = await Partners.findAndCountAll({
+        where: {
+          name: { [Sequelize.Op.like]: "%" + resultSearch + "%" },
+        },
+      });
+
+      res.status(200).json(PartnersByName);
     } catch (error) {
       res.status(500).json(error);
     }
   },
-  findPartnerDetail: async (req, res) => {
+  findPartnersDetail: async (req, res) => {
     try {
-      const store = await Partner.findById(req.params.id);
-      res.status(200).json(store);
+      const PartnersDetail = await Partners.findByPk(req.params.id);
+      res.status(200).json(PartnersDetail);
     } catch (error) {
       res.status(500).json(error);
     }
   },
-  updatePartner: async (req, res) => {
+  updatePartners: async (req, res) => {
     try {
-      const partner = await Partner.findById(req.params.id);
-      await partner.updateOne({ $set: req.body });
-      res.status(200).json("Update successfuly");
+      const editPartners = await Partners.findByPk(req.params.id);
+      if (req.file) {
+        await editPartners.update({
+          name: req.body.name,
+          img: "http://localhost:8080/" + req.file.path,
+        });
+        res.status(200).json("Update successfuly");
+      } else {
+        await editPartners.update({
+          name: req.body.name,
+        });
+        res.status(200).json("Update successfuly");
+      }
     } catch (error) {
       res.status(500).json(error);
     }
   },
-  deletePartner: async (req, res) => {
+  deletePartners: async (req, res) => {
     try {
-      await Partner.findByIdAndDelete(req.params.id);
+      const banner = await Partners.findByPk(req.params.id);
+      await banner.destroy();
       res.status(200).json("Delete successfuly");
     } catch (error) {
       res.status(500).json(error);

@@ -1,17 +1,40 @@
-const { Manager, News } = require("../model/model");
+const model = require("../model/model");
+const News = model.News;
+const Sequelize = require("sequelize");
+
+function convertViToEn(str, toUpperCase = false) {
+  str = str.toLowerCase();
+  str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+  str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+  str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+  str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+  str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+  str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+  str = str.replace(/đ/g, "d");
+  // Some system encode vietnamese combining accent as individual utf-8 characters
+  str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // Huyền sắc hỏi ngã nặng
+  str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // Â, Ê, Ă, Ơ, Ư
+  str = str.replace(/ /g, "-");
+
+  return toUpperCase ? str.toUpperCase() : str;
+}
+
 const NewsController = {
   addNews: async (req, res) => {
+    const slugConverByName = convertViToEn(req.body.name);
     try {
-      const news = new News(req.body);
+      const news = new News({
+        name: req.body.name,
+        descript: req.body.descript,
+        content: req.body.content,
+        type: req.body.type,
+        slug: slugConverByName,
+      });
       if (req.file) {
-        news.img = "https://t52-loan-nodejs.herokuapp.com/" + req.file.path;
+        news.img = "http://localhost:8080/" + req.file.path;
       }
 
       const savedNews = await news.save();
-      if (req.body.personPost) {
-        const manager = Manager.findById(req.body.personPost);
-        await manager.updateOne({ $push: { news: savedNews._id } });
-      }
 
       res.status(200).json(savedNews);
     } catch (error) {
@@ -20,23 +43,59 @@ const NewsController = {
   },
   getAllNews: async (req, res) => {
     try {
-      const news = await News.find()
-        .sort({ createdAt: -1 })
-        .populate("personPost");
+      const news = await News.findAll({
+        order: [["createdAt", "DESC"]],
+      });
+
       res.status(200).json(news);
     } catch (error) {
       res.status(500).json(error);
     }
   },
-  findNews: async (req, res) => {
+  findNewsByName: async (req, res) => {
     try {
-      const news = await News.find({
-        $or: [
-          {
-            name: { $regex: req.params.key },
+      let resultSearch = req.params.key;
+      const news = await News.findAndCountAll({
+        where: {
+          name: { [Sequelize.Op.like]: "%" + resultSearch + "%" },
+        },
+        order: [["createdAt", "DESC"]],
+      });
+      res.status(200).json(news);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  findNewsByType: async (req, res) => {
+    try {
+      let resultSearch = req.params.key;
+      const news = await News.findAndCountAll({
+        where: {
+          type: { [Sequelize.Op.like]: "%" + resultSearch + "%" },
+        },
+        order: [["createdAt", "DESC"]],
+      });
+      res.status(200).json(news);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  findNewsByDate: async (req, res) => {
+    try {
+      let fromSearch = req.params.from;
+      let toSearch = req.params.to;
+      console.log(fromSearch, toSearch);
+      const news = await News.findAndCountAll({
+        where: {
+          createdAt: {
+            [Sequelize.Op.between]: [
+              `${fromSearch}:00:00.000Z`,
+              `${toSearch}:23:59.007Z`,
+            ],
           },
-        ],
-      }).populate("personPost");
+        },
+        order: [["createdAt", "DESC"]],
+      });
       res.status(200).json(news);
     } catch (error) {
       res.status(500).json(error);
@@ -44,9 +103,7 @@ const NewsController = {
   },
   findNewsDetail: async (req, res) => {
     try {
-      const newsDetail = await News.findById(req.params.id).populate(
-        "personPost"
-      );
+      const newsDetail = await News.findByPk(req.params.id);
       res.status(200).json(newsDetail);
     } catch (error) {
       res.status(500).json(error);
@@ -54,22 +111,36 @@ const NewsController = {
   },
   updateNews: async (req, res) => {
     try {
-      const news = await News.findById(req.params.id);
-      await news.updateOne({ $set: req.body });
-      res.status(200).json("Update successfully");
+      const news = await News.findByPk(req.params.id);
+      const slugConverByName = convertViToEn(req.body.name);
+      if (req.file) {
+        await news.update({
+          name: req.body.name,
+          descript: req.body.descript,
+          content: req.body.content,
+          type: req.body.type,
+          slug: slugConverByName,
+          img: "http://localhost:8080/" + req.file.path,
+        });
+        res.status(200).json("Update successfully");
+      } else {
+        await news.update({
+          name: req.body.name,
+          descript: req.body.descript,
+          content: req.body.content,
+          type: req.body.type,
+          slug: slugConverByName,
+        });
+        res.status(200).json("Update successfuly");
+      }
     } catch (error) {
       res.status(500).json(error);
     }
   },
   deleteNews: async (req, res) => {
     try {
-      await Manager.updateMany(
-        {
-          news: req.params.id,
-        },
-        { $pull: { news: req.params.id } }
-      );
-      await News.findByIdAndDelete(req.params.id);
+      const news = await News.findByPk(req.params.id);
+      await news.destroy();
       res.status(200).json("Delete successfully");
     } catch (error) {
       res.status(500).json(error);

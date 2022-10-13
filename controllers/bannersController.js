@@ -1,37 +1,38 @@
-const { Banners } = require("../model/model");
+const model = require("../model/model");
+const Banners = model.Banner;
+const Sequelize = require("sequelize");
 const bannersController = {
   addBanners: async (req, res) => {
     try {
-      
       const newBanners = new Banners({
         name: req.body.name,
       });
       if (req.file) {
-        newBanners.img = "https://t52-loan-nodejs.herokuapp.com/" + req.file.path;
+        newBanners.img = "http://localhost:8080/" + req.file.path;
       }
       const savedBanners = await newBanners.save();
-      res.status(200).json(savedBanners);
+      res.json({ savedBanners });
     } catch (error) {
-      res.status(500).json(error);
+      res.json(error);
     }
   },
   getAllBanners: async (req, res) => {
     try {
-      const banners = await Banners.find().sort({ createdAt: -1 });
-      res.status(200).json(banners);
+      const banners = await Banners.findAll();
+      res.json({ banners });
     } catch (error) {
-      res.status(500).json(error);
+      res.json(error);
     }
   },
   findBanners: async (req, res) => {
     try {
-      const banners = await Banners.find({
-        $or: [
-          {
-            name: { $regex: req.params.key },
-          },
-        ],
+      let resultSearch = req.params.key;
+      const banners = await Banners.findAndCountAll({
+        where: {
+          name: { [Sequelize.Op.like]: "%" + resultSearch + "%" },
+        },
       });
+
       res.status(200).json(banners);
     } catch (error) {
       res.status(500).json(error);
@@ -39,7 +40,7 @@ const bannersController = {
   },
   findBannersDetail: async (req, res) => {
     try {
-      const banners = await Banners.findById(req.params.id);
+      const banners = await Banners.findByPk(req.params.id);
       res.status(200).json(banners);
     } catch (error) {
       res.status(500).json(error);
@@ -47,16 +48,27 @@ const bannersController = {
   },
   updateBanners: async (req, res) => {
     try {
-      const banners = await Banners.findById(req.params.id);
-      await banners.updateOne({ $set: req.body });
-      res.status(200).json("Update successfuly");
+      const banners = await Banners.findByPk(req.params.id);
+      if (req.file) {
+        await banners.update({
+          name: req.body.name,
+          img: "http://localhost:8080/" + req.file.path,
+        });
+        res.status(200).json("Update successfuly");
+      } else {
+        await banners.update({
+          name: req.body.name,
+        });
+        res.status(200).json("Update successfuly");
+      }
     } catch (error) {
       res.status(500).json(error);
     }
   },
   deleteBanners: async (req, res) => {
     try {
-      await Banners.findByIdAndDelete(req.params.id);
+      const banner = await Banners.findByPk(req.params.id);
+      await banner.destroy();
       res.status(200).json("Delete successfuly");
     } catch (error) {
       res.status(500).json(error);
