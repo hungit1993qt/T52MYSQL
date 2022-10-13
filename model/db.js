@@ -11,6 +11,9 @@ const db = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     idle: 30000,
     acquire: 60000,
   },
+  dialectOptions: {
+    socketPath: "/Applications/MAMP/tmp/mysql/mysql.sock",
+  },
 });
 
 db.authenticate()
