@@ -25,6 +25,12 @@ const storeController = {
           "district",
           "province",
         ],
+        include: [
+          {
+            model: Client,
+            as: "Clients",
+          },
+        ],
         //   include: { model: model.Address,
         //     attributes:["id","Street","district","province"]
         //  },

@@ -208,15 +208,11 @@ const Client = db.define(
       allowNull: false,
     },
     loanType: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     isLoan: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    storeID: {
-      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },
@@ -269,6 +265,7 @@ const Store = db.define(
 );
 
 db.sync();
+Store.hasMany(Client), Client.belongsTo(Store);
 module.exports = {
   Store,
   Client,

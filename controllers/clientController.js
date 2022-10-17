@@ -1,14 +1,12 @@
-const { Store, Client } = require("../model/model");
-
+const model = require("../model/model");
+const Client = model.Client;
+const Store = model.Store;
+const Sequelize = require("sequelize");
 const clientController = {
   addClient: async (req, res) => {
     try {
       const newClient = new Client(req.body);
       const savedClient = await newClient.save();
-      if (req.body.store) {
-        const store = Store.findById(req.body.store);
-        await store.updateOne({ $push: { clients: savedClient._id } });
-      }
       res.status(200).json(savedClient);
     } catch (error) {
       res.status(500).json(error);
@@ -16,21 +14,49 @@ const clientController = {
   },
   getAllClient: async (req, res) => {
     try {
-      const client = await Client.find().populate("store");
+      const client = await Client.findAll({
+        include: [
+          {
+            model: Store,
+            attributes: [
+              "id",
+              "name",
+              "email",
+              "phone",
+              "idMap",
+              "street",
+              "district",
+              "province",
+            ],
+          },
+        ],
+      });
       res.status(200).json(client);
     } catch (error) {
       res.status(500).json(error);
     }
   },
-  findClient: async (req, res) => {
+  findClientByName: async (req, res) => {
     try {
-      const client = await Client.find({
-        $or: [
-          {
-            name: { $regex: req.params.key },
-          },
-        ],
-      }).populate("store");
+      let resultSearch = req.params.key;
+      const client = await Client.findAndCountAll({
+        where: {
+          name: { [Sequelize.Op.like]: "%" + resultSearch + "%" },
+        },
+      });
+      res.status(200).json(client);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  findClientByPhone: async (req, res) => {
+    try {
+      let resultSearch = req.params.key;
+      const client = await Client.findAndCountAll({
+        where: {
+          phone: { [Sequelize.Op.like]: "%" + resultSearch + "%" },
+        },
+      });
       res.status(200).json(client);
     } catch (error) {
       res.status(500).json(error);
@@ -38,31 +64,17 @@ const clientController = {
   },
   findClientDetail: async (req, res) => {
     try {
-      const client = await Client.findById(req.params.id).populate("store");
+      const client = await Client.findByPk(req.params.id);
       res.status(200).json(client);
     } catch (error) {
       res.status(500).json(error);
     }
   },
-  findClientByDate: async (req, res) => {
-    try {
-      console.log(req.params.from, req.params.to, req.params.name);
-      const client = await Client.find({
-        createdAt: { $gte: req.params.from, $lte: req.params.to },
-        // "store.name": { $eq: "T55" },
-      })
-        .sort({ createdAt: -1 })
-        .populate("store");
 
-      res.status(200).json(client);
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  },
   updateClient: async (req, res) => {
     try {
-      const client = await Client.findById(req.params.id);
-      await client.updateOne({ $set: req.body });
+      const client = await Client.findByPk(req.params.id);
+      await client.update(req.body);
       res.status(200).json("Update successfully");
     } catch (error) {
       res.status(500).json(error);
@@ -70,11 +82,8 @@ const clientController = {
   },
   deleteClient: async (req, res) => {
     try {
-      await Store.updateMany(
-        { clients: req.params.id },
-        { $pull: { clients: req.params.id } }
-      );
-      await Client.findByIdAndDelete(req.params.id);
+      const client = await Client.findByPk(req.params.id);
+      await banner.destroy();
       res.status(200).json("Delete successfully");
     } catch (error) {
       res.status(500).json(error);
