@@ -97,27 +97,36 @@ const managerController = {
   },
   login: async (req, res) => {
     try {
-      const manager = await Manager.findOne({ account: req.body.account });
-      if (!manager) {
-        res.status(404).json("Wrong account");
+      const manager = await Manager.findOne({
+        where: { account: req.body.account },
+      });
+      if (manager === null) {
+        return res.status(404).json("Wrong account");
+      } else {
+        console.log("found");
+      }
+      if (manager.count == 0) {
+        return;
       }
       const validPassword = await bcrypt.compare(
         req.body.password,
         manager.password
       );
+      console.log(manager._doc);
       if (!validPassword) {
-        res.status(404).json("Wrong password");
+        return res.status(404).json("Wrong password");
       }
       if (manager && validPassword) {
         const accessToken = jwt.sign(
           {
-            id: manager.id,
-            admin: manager.admin,
+            id: manager._id,
+            isAdmin: manager.isAdmin,
           },
           process.env.JWT_ACCESS_KEY,
           { expiresIn: "30d" }
         );
-        const { _id, password, ...others } = manager._doc;
+
+        const { _id, password, ...others } = manager.dataValues;
         res.status(200).json({ ...others, accessToken });
       }
     } catch (error) {

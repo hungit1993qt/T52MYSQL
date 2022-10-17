@@ -6,6 +6,11 @@ routes.post(
   //   verifyToken.verifyTokenAPI,
   managerController.addManager
 );
+routes.post(
+  "/login",
+  //   verifyToken.verifyTokenAPI,
+  managerController.login
+);
 routes.get(
   "/",
   //   verifyToken.verifyTokenAPI,
