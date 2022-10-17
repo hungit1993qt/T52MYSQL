@@ -164,21 +164,13 @@ const Manager = db.define(
       allowNull: false,
     },
 
-    admin: {
+    isAdmin: {
       type: DataTypes.BOOLEAN,
-      // allowNull defaults to true
-    },
-    newsID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    mediaID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      defaultValue: false,
     },
   },
   {
-    tableName: "manager",
+    tableName: "Manager",
   }
 );
 const Client = db.define(

@@ -1,37 +1,39 @@
-const bannerController = require("../controllers/bannersController");
-const upload = require("../middleware/uploadPicture");
+const managerController = require("../controllers/managerController");
 const verifyToken = require("../middleware/verifyToken");
 const routes = require("express").Router();
 routes.post(
   "/",
   //   verifyToken.verifyTokenAPI,
-  upload.single("img"),
-  bannerController.addBanners
+  managerController.addManager
 );
 routes.get(
   "/",
   //   verifyToken.verifyTokenAPI,
-  bannerController.getAllBanners
+  managerController.getAllManager
 );
 routes.get(
   "/detail/:id",
   //   verifyToken.verifyTokenAPI,
-  bannerController.findBannersDetail
+  managerController.findManagerDetail
 );
 routes.get(
-  "/:key",
+  "/search-name/:key",
   //   verifyToken.verifyTokenAPI,
-  bannerController.findBanners
+  managerController.findManagerByName
+);
+routes.get(
+  "/search-phone/:key",
+  //   verifyToken.verifyTokenAPI,
+  managerController.findManagerByPhone
 );
 routes.put(
   "/:id",
-  upload.single("img"),
   //   verifyToken.verifyTokenAPI,
-  bannerController.updateBanners
+  managerController.updateManager
 );
 routes.delete(
   "/:id",
   //   verifyToken.verifyTokenAPI,
-  bannerController.deleteBanners
+  managerController.deleteManager
 );
 module.exports = routes;

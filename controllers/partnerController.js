@@ -11,7 +11,7 @@ const partnerController = {
         newPartners.img = "http://localhost:8080/" + req.file.path;
       }
       const savedPartners = await newPartners.save();
-      res.json({ savedPartners });
+      res.json( savedPartners );
     } catch (error) {
       res.json(error);
     }

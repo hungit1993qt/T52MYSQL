@@ -1,4 +1,7 @@
-const { Manager, News } = require("../model/model");
+const model = require("../model/model");
+const Manager = model.Manager;
+
+const Sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const managerController = {
@@ -23,23 +26,33 @@ const managerController = {
   },
   getAllManager: async (req, res) => {
     try {
-      const manager = await Manager.find().populate("news").populate("medias");
+      const manager = await Manager.findAll();
       res.status(200).json(manager);
     } catch (error) {
       res.status(500).json(error);
     }
   },
-  findManager: async (req, res) => {
+  findManagerByName: async (req, res) => {
     try {
-      const manager = await Manager.find({
-        $or: [
-          {
-            account: { $regex: req.params.key },
-          },
-        ],
-      })
-        .populate("news")
-        .populate("medias");
+      let resultSearch = req.params.key;
+      const manager = await Manager.findAndCountAll({
+        where: {
+          name: { [Sequelize.Op.like]: "%" + resultSearch + "%" },
+        },
+      });
+      res.status(200).json(manager);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  findManagerByPhone: async (req, res) => {
+    try {
+      let resultSearch = req.params.key;
+      const manager = await Manager.findAndCountAll({
+        where: {
+          phone: { [Sequelize.Op.like]: "%" + resultSearch + "%" },
+        },
+      });
       res.status(200).json(manager);
     } catch (error) {
       res.status(500).json(error);
@@ -47,9 +60,8 @@ const managerController = {
   },
   findManagerDetail: async (req, res) => {
     try {
-      const manager = await Manager.findById(req.params.id)
-        .populate("news")
-        .populate("medias");
+      const manager = await Manager.findByPk(req.params.id);
+
       res.status(200).json(manager);
     } catch (error) {
       res.status(500).json(error);
@@ -57,8 +69,18 @@ const managerController = {
   },
   updateManager: async (req, res) => {
     try {
-      const manager = await Manager.findById(req.params.id);
-      await manager.updateOne({ $set: req.body });
+      const salt = await bcrypt.genSalt(10);
+      const hashed = await bcrypt.hash(req.body.password, salt);
+      const manager = await Manager.findByPk(req.params.id);
+      await manager.update({
+        account: req.body.account,
+        name: req.body.name,
+        email: req.body.email,
+        password: hashed,
+        phone: req.body.phone,
+        dateOfBirth: req.body.dateOfBirth,
+        address: req.body.address,
+      });
       res.status(200).json("Update successfully");
     } catch (error) {
       res.status(500).json(error);
@@ -66,11 +88,8 @@ const managerController = {
   },
   deleteManager: async (req, res) => {
     try {
-      await News.updateMany(
-        { personPost: req.params.id },
-        { personPost: null }
-      );
-      await Manager.findByIdAndDelete(req.params.id);
+      const manager = await Manager.findByPk(req.params.id);
+      await manager.destroy();
       res.status(200).json("Delete successfully");
     } catch (error) {
       res.status(500).json(error);

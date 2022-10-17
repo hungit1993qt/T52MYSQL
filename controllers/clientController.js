@@ -83,7 +83,7 @@ const clientController = {
   deleteClient: async (req, res) => {
     try {
       const client = await Client.findByPk(req.params.id);
-      await banner.destroy();
+      await client.destroy();
       res.status(200).json("Delete successfully");
     } catch (error) {
       res.status(500).json(error);
