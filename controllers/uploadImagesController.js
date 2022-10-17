@@ -4,18 +4,27 @@ const Sequelize = require("sequelize");
 const uploadImagesController = {
   adduploadImages: async (req, res) => {
     try {
-      const result = [];
+      //mutil
+      // const result = [];
 
-      if (req.files) {
-        for (let i = 0; i < req.files.length; i++) {
-          const newUploadImages = new uploadImages({
-            img: "https://t52-loan.herokuapp.com/" + req.files[i].path,
-          });
-          const savedUploadImages = await newUploadImages.save();
-          result[i] = "https://t52-loan.herokuapp.com/" + req.files[i].path;
-        }
+      // if (req.files) {
+      //   for (let i = 0; i < req.files.length; i++) {
+      //     const newUploadImages = new uploadImages({
+      //       img: "https://t52-loan.herokuapp.com/" + req.files[i].path,
+      //     });
+      //     const savedUploadImages = await newUploadImages.save();
+      //     result[i] = "https://t52-loan.herokuapp.com/" + req.files[i].path;
+      //   }
+      // }
+      //single
+
+      if (req.file) {
+        const newUploadImages = new uploadImages({
+          img: "http://localhost:8080/" + req.file.path,
+        });
+        const savedUploadImages = await newUploadImages.save();
+        res.json(savedUploadImages );
       }
-      res.json({ result });
     } catch (error) {
       res.json(error);
     }
@@ -42,7 +51,7 @@ const uploadImagesController = {
       const updateUploadImages = await uploadImages.findByPk(req.params.id);
       if (req.file) {
         await updateUploadImages.update({
-          img: "https://t52-loan.herokuapp.com/" + req.file.path,
+          img: "http://localhost:8080/" + req.file.path,
         });
         res.status(200).json("Update successfuly");
       }

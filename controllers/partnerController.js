@@ -8,7 +8,7 @@ const partnerController = {
         name: req.body.name,
       });
       if (req.file) {
-        newPartners.img = "https://t52-loan.herokuapp.com/" + req.file.path;
+        newPartners.img = "http://localhost:8080/" + req.file.path;
       }
       const savedPartners = await newPartners.save();
       res.json({ savedPartners });
@@ -52,7 +52,7 @@ const partnerController = {
       if (req.file) {
         await editPartners.update({
           name: req.body.name,
-          img: "https://t52-loan.herokuapp.com/" + req.file.path,
+          img: "http://localhost:8080/" + req.file.path,
         });
         res.status(200).json("Update successfuly");
       } else {

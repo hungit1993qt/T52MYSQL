@@ -5,7 +5,7 @@ const routes = require("express").Router();
 routes.post(
   "/",
   //   verifyToken.verifyTokenAPI,
-  upload.array("img"),
+  upload.single("img"),
   uploadImagesController.adduploadImages
 );
 routes.get(

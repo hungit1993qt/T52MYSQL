@@ -31,7 +31,7 @@ const NewsController = {
         slug: slugConverByName,
       });
       if (req.file) {
-        news.img = "https://t52-loan.herokuapp.com/" + req.file.path;
+        news.img = "http://localhost:8080/" + req.file.path;
       }
 
       const savedNews = await news.save();
@@ -120,7 +120,7 @@ const NewsController = {
           content: req.body.content,
           type: req.body.type,
           slug: slugConverByName,
-          img: "https://t52-loan.herokuapp.com/" + req.file.path,
+          img: "http://localhost:8080/" + req.file.path,
         });
         res.status(200).json("Update successfully");
       } else {

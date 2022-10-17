@@ -8,7 +8,7 @@ const bannersController = {
         name: req.body.name,
       });
       if (req.file) {
-        newBanners.img = "https://t52-loan.herokuapp.com/" + req.file.path;
+        newBanners.img = "http://localhost:8080/" + req.file.path;
       }
       const savedBanners = await newBanners.save();
       res.json({ savedBanners });
@@ -52,7 +52,7 @@ const bannersController = {
       if (req.file) {
         await banners.update({
           name: req.body.name,
-          img: "https://t52-loan.herokuapp.com/" + req.file.path,
+          img: "http://localhost:8080/" + req.file.path,
         });
         res.status(200).json("Update successfuly");
       } else {

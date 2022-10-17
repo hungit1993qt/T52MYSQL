@@ -3,9 +3,7 @@ const dbConfig = require("../config/db.config");
 
 const db = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
-  dialect: "mysql",
-  operatorAlias: false,
-  logging: false,
+  dialect: dbConfig.DIALECT,
 });
 
 db.authenticate()
