@@ -43,11 +43,42 @@ const NewsController = {
   },
   getAllNews: async (req, res) => {
     try {
-      const news = await News.findAll({
+      const { page, size } = req.query;
+      console.log(page, size);
+      const news = await News.findAndCountAll({
         order: [["createdAt", "DESC"]],
       });
 
       res.status(200).json(news);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  getAllNewsByPagination: async (req, res) => {
+    try {
+      const pageAsNumber = Number.parseInt(req.query.page);
+      const sizeAsNumber = Number.parseInt(req.query.size);
+      let page = 0;
+      if (!Number.isNaN(pageAsNumber) && pageAsNumber > 0) {
+        page = pageAsNumber;
+      }
+      let size = 3;
+      if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < 3) {
+        size = sizeAsNumber;
+      }
+      console.log(page, size);
+      const news = await News.findAndCountAll({
+        // order: [["createdAt", "DESC"]],
+        limit: size,
+        offset: page * size,
+      });
+      res.send({
+        content: news.rows,
+
+        pageAt: page,
+        totalItem: news.count,
+        totalPages: Math.ceil(news.count / size),
+      });
     } catch (error) {
       res.status(500).json(error);
     }

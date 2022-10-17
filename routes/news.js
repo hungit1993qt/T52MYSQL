@@ -14,6 +14,11 @@ routes.get(
   newsController.getAllNews
 );
 routes.get(
+  "/pagination",
+  //   verifyToken.verifyTokenAPI,
+  newsController.getAllNewsByPagination
+);
+routes.get(
   "/detail/:id",
   //   verifyToken.verifyTokenAPI,
   newsController.findNewsDetail
