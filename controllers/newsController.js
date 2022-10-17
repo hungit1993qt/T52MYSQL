@@ -62,8 +62,8 @@ const NewsController = {
       if (!Number.isNaN(pageAsNumber) && pageAsNumber > 0) {
         page = pageAsNumber;
       }
-      let size = 3;
-      if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < 3) {
+      let size = 4;
+      if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < size) {
         size = sizeAsNumber;
       }
       console.log(page, size);
