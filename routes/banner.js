@@ -4,34 +4,40 @@ const verifyToken = require("../middleware/verifyToken");
 const routes = require("express").Router();
 routes.post(
   "/",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   upload.single("img"),
   bannerController.addBanners
 );
 routes.get(
   "/",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   bannerController.getAllBanners
 );
 routes.get(
   "/detail/:id",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   bannerController.findBannersDetail
 );
 routes.get(
   "/:key",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   bannerController.findBanners
 );
 routes.put(
   "/:id",
   upload.single("img"),
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   bannerController.updateBanners
 );
 routes.delete(
   "/:id",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   bannerController.deleteBanners
 );
 module.exports = routes;

@@ -3,42 +3,50 @@ const verifyToken = require("../middleware/verifyToken");
 const routes = require("express").Router();
 routes.post(
   "/",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAdmin,
   managerController.addManager
 );
 routes.post(
   "/login",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAdmin,
   managerController.login
 );
 routes.get(
   "/",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAdmin,
   managerController.getAllManager
 );
 routes.get(
   "/detail/:id",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAdmin,
   managerController.findManagerDetail
 );
 routes.get(
   "/search-name/:key",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAdmin,
   managerController.findManagerByName
 );
 routes.get(
   "/search-phone/:key",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAdmin,
   managerController.findManagerByPhone
 );
 routes.put(
   "/:id",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAdmin,
   managerController.updateManager
 );
 routes.delete(
   "/:id",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAdmin,
   managerController.deleteManager
 );
 module.exports = routes;

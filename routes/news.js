@@ -4,49 +4,58 @@ const verifyToken = require("../middleware/verifyToken");
 const routes = require("express").Router();
 routes.post(
   "/",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   upload.single("img"),
   newsController.addNews
 );
 routes.get(
   "/",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   newsController.getAllNews
 );
 routes.get(
   "/pagination",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   newsController.getAllNewsByPagination
 );
 routes.get(
   "/detail/:id",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   newsController.findNewsDetail
 );
 routes.get(
   "/search-name/:key",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   newsController.findNewsByName
 );
 routes.get(
   "/search-type/:key",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   newsController.findNewsByType
 );
 routes.get(
   "/search-date/:from/:to",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   newsController.findNewsByDate
 );
 routes.put(
   "/:id",
   upload.single("img"),
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   newsController.updateNews
 );
 routes.delete(
   "/:id",
-  //   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   newsController.deleteNews
 );
 module.exports = routes;
