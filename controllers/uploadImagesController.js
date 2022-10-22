@@ -32,7 +32,7 @@ const uploadImagesController = {
   getAlluploadImages: async (req, res) => {
     try {
       const allUploadImages = await uploadImages.findAll();
-      res.json({ allUploadImages });
+      res.json( allUploadImages );
     } catch (error) {
       res.json(error);
     }
