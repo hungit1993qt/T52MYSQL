@@ -11,19 +11,16 @@ routes.post(
 routes.get(
   "/",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   storeController.getAllStore
 );
 routes.get(
   "/detail/:id",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   storeController.findStoreDetail
 );
 routes.get(
   "/:key",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   storeController.findStore
 );
 routes.put(

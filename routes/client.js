@@ -10,25 +10,21 @@ routes.post(
 routes.get(
   "/",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   clientController.getAllClient
 );
 routes.get(
   "/detail/:id",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   clientController.findClientDetail
 );
 routes.get(
   "/search-name/:key",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   clientController.findClientByName
 );
 routes.get(
   "/search-phone/:key",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   clientController.findClientByPhone
 );
 

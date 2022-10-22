@@ -12,19 +12,16 @@ routes.post(
 routes.get(
   "/",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   partnerController.getAllPartners
 );
 routes.get(
   "/detail/:id",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   partnerController.findPartnersDetail
 );
 routes.get(
   "/:key",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   partnerController.findPartners
 );
 routes.put(

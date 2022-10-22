@@ -8,7 +8,7 @@ const bannersController = {
         name: req.body.name,
       });
       if (req.file) {
-        newBanners.img = "http://localhost:8080/" + req.file.path;
+        newBanners.img = process.env.URL + req.file.path;
       }
       const savedBanners = await newBanners.save();
       res.json({ savedBanners });
@@ -17,7 +17,7 @@ const bannersController = {
     }
   },
   getAllBanners: async (req, res) => {
-    try {
+    try {     
       const banners = await Banners.findAll();
       res.json({ banners });
     } catch (error) {
@@ -52,7 +52,7 @@ const bannersController = {
       if (req.file) {
         await banners.update({
           name: req.body.name,
-          img: "http://localhost:8080/" + req.file.path,
+          img: process.env.URL + req.file.path,
         });
         res.status(200).json("Update successfuly");
       } else {

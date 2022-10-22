@@ -10,31 +10,26 @@ routes.post(
 routes.post(
   "/login",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenAdmin,
   managerController.login
 );
 routes.get(
   "/",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenAdmin,
   managerController.getAllManager
 );
 routes.get(
   "/detail/:id",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenAdmin,
   managerController.findManagerDetail
 );
 routes.get(
   "/search-name/:key",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenAdmin,
   managerController.findManagerByName
 );
 routes.get(
   "/search-phone/:key",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenAdmin,
   managerController.findManagerByPhone
 );
 routes.put(

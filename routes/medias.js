@@ -10,19 +10,16 @@ routes.post(
 routes.get(
   "/",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   mediasController.getAllMedias
 );
 routes.get(
   "/detail/:id",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   mediasController.findMediasDetail
 );
 routes.get(
   "/:key",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   mediasController.findMedias
 );
 routes.put(

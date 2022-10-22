@@ -12,37 +12,31 @@ routes.post(
 routes.get(
   "/",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   newsController.getAllNews
 );
 routes.get(
   "/pagination",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   newsController.getAllNewsByPagination
 );
 routes.get(
   "/detail/:id",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   newsController.findNewsDetail
 );
 routes.get(
   "/search-name/:key",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   newsController.findNewsByName
 );
 routes.get(
   "/search-type/:key",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   newsController.findNewsByType
 );
 routes.get(
   "/search-date/:from/:to",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   newsController.findNewsByDate
 );
 routes.put(

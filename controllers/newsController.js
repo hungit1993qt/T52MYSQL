@@ -31,7 +31,7 @@ const NewsController = {
         slug: slugConverByName,
       });
       if (req.file) {
-        news.img = "http://localhost:8080/" + req.file.path;
+        news.img = process.env.URL + req.file.path;
       }
 
       const savedNews = await news.save();
@@ -151,7 +151,7 @@ const NewsController = {
           content: req.body.content,
           type: req.body.type,
           slug: slugConverByName,
-          img: "http://localhost:8080/" + req.file.path,
+          img: process.env.URL + req.file.path,
         });
         res.status(200).json("Update successfully");
       } else {

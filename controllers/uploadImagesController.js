@@ -20,7 +20,7 @@ const uploadImagesController = {
 
       if (req.file) {
         const newUploadImages = new uploadImages({
-          img: "http://localhost:8080/" + req.file.path,
+          img: process.env.URL + req.file.path,
         });
         const savedUploadImages = await newUploadImages.save();
         res.json(savedUploadImages );
@@ -51,7 +51,7 @@ const uploadImagesController = {
       const updateUploadImages = await uploadImages.findByPk(req.params.id);
       if (req.file) {
         await updateUploadImages.update({
-          img: "http://localhost:8080/" + req.file.path,
+          img: process.env.URL + req.file.path,
         });
         res.status(200).json("Update successfuly");
       }

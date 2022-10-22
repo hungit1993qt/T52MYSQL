@@ -12,7 +12,6 @@ routes.post(
 routes.get(
   "/",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   uploadImagesController.getAlluploadImages
 );
 // routes.get(
@@ -34,6 +33,7 @@ routes.get(
 routes.delete(
   "/:id",
   verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
   uploadImagesController.deleteuploadImages
 );
 module.exports = routes;

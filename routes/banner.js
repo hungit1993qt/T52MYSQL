@@ -12,19 +12,16 @@ routes.post(
 routes.get(
   "/",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   bannerController.getAllBanners
 );
 routes.get(
   "/detail/:id",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   bannerController.findBannersDetail
 );
 routes.get(
   "/:key",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
   bannerController.findBanners
 );
 routes.put(
