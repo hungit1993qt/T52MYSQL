@@ -5,7 +5,7 @@ const verifyToken = {
     
     if (tokenAuths) {
       const accessToken = tokenAuths.split(" ")[1];
-      jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (err, manager) => {
+      jwt.verify(accessToken,"T52Project859708", (err, manager) => {
         if (err) {
           res.status(403).json("Token auth không đúng");
         }
@@ -30,7 +30,7 @@ const verifyToken = {
     
     if (token) {
       const accessToken = token.split(" ")[1];
-      if (accessToken == process.env.VERIFY_TOKEN) {
+      if (accessToken == 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMzNhZDQ3ZjA4YWI1MGIzMGNhM2EwMSIsImFkbWluIjpmYWxzZSwiaWF0IjoxNjY0MzUyOTg4LCJleHAiOjE2NjY5NDQ5ODh9.3uw9T_ew9cmoMTYbixwMQFS8jPK74Ct8vPQVRBVLv_kds4324g') {
         next();
       } else {
         res.status(403).json("Token không đúng");
