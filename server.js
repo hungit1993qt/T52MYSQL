@@ -14,6 +14,7 @@ const newsRoutes = require("./routes/news");
 const clientRoutes = require("./routes/client");
 const managerRoutes = require("./routes/manager");
 const uploadImagesRoutes = require("./routes/uploadImages");
+const typenewsRoutes = require("./routes/typenews");
 
 app.use(express.static(__dirname + "/"));
 app.use("/banner", bannerRoutes);
@@ -24,6 +25,7 @@ app.use("/news/", newsRoutes);
 app.use("/client/", clientRoutes);
 app.use("/manager/", managerRoutes);
 app.use("/upload-images/", uploadImagesRoutes);
+app.use("/typenews/", typenewsRoutes);
 app.get("/", (req, res) => {
   res.status(200).json("welcom to API");
 });

@@ -18,6 +18,18 @@ const Partner = db.define(
     tableName: "partner",
   }
 );
+const TypeNews = db.define(
+  "TypeNews",
+  {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "TypeNews",
+  }
+);
 const Banner = db.define(
   "Banner",
   {
@@ -259,6 +271,7 @@ const Store = db.define(
 db.sync();
 Store.hasMany(Client), Client.belongsTo(Store);
 module.exports = {
+  TypeNews,
   Store,
   Client,
   Manager,
