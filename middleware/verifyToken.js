@@ -8,6 +8,7 @@ const verifyToken = {
       jwt.verify(accessToken,"T52Project859708", (err, manager) => {
         if (err) {
           res.status(403).json("Token auth không đúng");
+          return
         }
         req.manager = manager;
         next();
@@ -34,6 +35,7 @@ const verifyToken = {
         next();
       } else {
         res.status(403).json("Token không đúng");
+        return
       }
     } else {
       res.status(401).json("Bạn chưa xác thực bằng token");
