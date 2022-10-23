@@ -63,7 +63,11 @@ const NewsController = {
         page = pageAsNumber;
       }
       let size = 4;
-      if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < size) {
+      if (
+        !Number.isNaN(sizeAsNumber) &&
+        sizeAsNumber > 0 &&
+        sizeAsNumber < size
+      ) {
         size = sizeAsNumber;
       }
       console.log(page, size);
@@ -89,6 +93,20 @@ const NewsController = {
       const news = await News.findAndCountAll({
         where: {
           name: { [Sequelize.Op.like]: "%" + resultSearch + "%" },
+        },
+        order: [["createdAt", "DESC"]],
+      });
+      res.status(200).json(news);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  findNewsBySlug: async (req, res) => {
+    try {
+      let resultSearch = req.params.key;
+      const news = await News.findAndCountAll({
+        where: {
+          slug: resultSearch,
         },
         order: [["createdAt", "DESC"]],
       });

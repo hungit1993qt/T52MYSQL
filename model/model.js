@@ -137,6 +137,60 @@ const Media = db.define(
     tableName: "media",
   }
 );
+const Question = db.define(
+  "Question",
+  {
+    id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    // Model attributes are defined here
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    content: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "Question",
+  }
+);
+const Feedback = db.define(
+  "Feedback",
+  {
+    id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    // Model attributes are defined here
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    content: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    img: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    job: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "Feedback",
+  }
+);
 const Manager = db.define(
   "Manager",
   {
@@ -280,4 +334,6 @@ module.exports = {
   Banner,
   Partner,
   uploadImages,
+  Question,
+  Feedback,
 };

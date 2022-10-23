@@ -9,11 +9,7 @@ routes.post(
   upload.single("img"),
   newsController.addNews
 );
-routes.get(
-  "/",
-  verifyToken.verifyTokenAPI,
-  newsController.getAllNews
-);
+routes.get("/", verifyToken.verifyTokenAPI, newsController.getAllNews);
 routes.get(
   "/pagination",
   verifyToken.verifyTokenAPI,
@@ -29,6 +25,12 @@ routes.get(
   verifyToken.verifyTokenAPI,
   newsController.findNewsByName
 );
+routes.get(
+  "/search-slug/:key",
+  verifyToken.verifyTokenAPI,
+  newsController.findNewsBySlug
+);
+
 routes.get(
   "/search-type/:key",
   verifyToken.verifyTokenAPI,
