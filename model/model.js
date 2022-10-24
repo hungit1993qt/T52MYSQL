@@ -109,6 +109,10 @@ const News = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    isHot: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     tableName: "news",

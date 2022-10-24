@@ -66,7 +66,7 @@ const NewsController = {
       if (
         !Number.isNaN(sizeAsNumber) &&
         sizeAsNumber > 0 &&
-        sizeAsNumber < size
+        sizeAsNumber > size
       ) {
         size = sizeAsNumber;
       }
