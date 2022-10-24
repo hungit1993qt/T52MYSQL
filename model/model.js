@@ -94,7 +94,7 @@ const News = db.define(
       allowNull: false,
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     img: {
@@ -152,7 +152,7 @@ const Question = db.define(
       allowNull: false,
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
   },
@@ -175,7 +175,7 @@ const Feedback = db.define(
       allowNull: false,
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     img: {
