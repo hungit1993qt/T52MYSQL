@@ -11,15 +11,15 @@ const bannersController = {
         newBanners.img = process.env.URL + req.file.path;
       }
       const savedBanners = await newBanners.save();
-      res.json({ savedBanners });
+      res.json(savedBanners);
     } catch (error) {
       res.json(error);
     }
   },
   getAllBanners: async (req, res) => {
-    try {     
+    try {
       const banners = await Banners.findAll();
-      res.json({ banners });
+      res.json(banners);
     } catch (error) {
       res.json(error);
     }

@@ -11,7 +11,7 @@ const partnerController = {
         newPartners.img = process.env.URL + req.file.path;
       }
       const savedPartners = await newPartners.save();
-      res.json( savedPartners );
+      res.json(savedPartners);
     } catch (error) {
       res.json(error);
     }
@@ -19,7 +19,7 @@ const partnerController = {
   getAllPartners: async (req, res) => {
     try {
       const allPartners = await Partners.findAll();
-      res.json({ allPartners });
+      res.json(allPartners);
     } catch (error) {
       res.json(error);
     }

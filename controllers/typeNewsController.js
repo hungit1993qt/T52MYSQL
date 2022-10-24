@@ -17,7 +17,7 @@ const typeNewsController = {
   getAllTypeNews: async (req, res) => {
     try {
       const allTypeNews = await TypeNews.findAll();
-      res.json({ allTypeNews });
+      res.json(allTypeNews);
     } catch (error) {
       res.json(error);
     }
