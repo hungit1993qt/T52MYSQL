@@ -29,6 +29,7 @@ const NewsController = {
         content: req.body.content,
         type: req.body.type,
         slug: slugConverByName,
+        isHot: req.body.isHot,
       });
       if (req.file) {
         news.img = process.env.URL + req.file.path;
@@ -43,13 +44,27 @@ const NewsController = {
   },
   getAllNews: async (req, res) => {
     try {
-      const { page, size } = req.query;
-      console.log(page, size);
-      const news = await News.findAndCountAll({
+      const resultIsHotTrue = await News.findAndCountAll({
+        where: {
+          isHot: true,
+        },
         order: [["createdAt", "DESC"]],
       });
-
-      res.status(200).json(news);
+      const resultIsHostFalse = await News.findAndCountAll({
+        where: {
+          isHot: false,
+        },
+        order: [["createdAt", "DESC"]],
+      });
+      if (resultIsHotTrue.count > 0) {
+        const string = resultIsHotTrue.rows.concat(resultIsHostFalse.rows);
+        res.status(200).json(string);
+      } else {
+        const news = await News.findAndCountAll({
+          order: [["createdAt", "DESC"]],
+        });
+        res.status(200).json(news);
+      }
     } catch (error) {
       res.status(500).json(error);
     }
@@ -70,7 +85,6 @@ const NewsController = {
       ) {
         size = sizeAsNumber;
       }
-      console.log(page, size);
       const news = await News.findAndCountAll({
         // order: [["createdAt", "DESC"]],
         limit: size,
