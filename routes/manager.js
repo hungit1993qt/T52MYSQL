@@ -4,19 +4,11 @@ const routes = require("express").Router();
 routes.post(
   "/",
   verifyToken.verifyTokenAPI,
-  managerController.getAllManager,
+  verifyToken.verifyTokenManager,
   managerController.addManager
 );
-routes.post(
-  "/login",
-  verifyToken.verifyTokenAPI,
-  managerController.login
-);
-routes.get(
-  "/",
-  verifyToken.verifyTokenAPI,
-  managerController.getAllManager
-);
+routes.post("/login", verifyToken.verifyTokenAPI, managerController.login);
+routes.get("/", verifyToken.verifyTokenAPI, managerController.getAllManager);
 routes.get(
   "/detail/:id",
   verifyToken.verifyTokenAPI,
@@ -32,16 +24,21 @@ routes.get(
   verifyToken.verifyTokenAPI,
   managerController.findManagerByPhone
 );
+routes.get(
+  "/infor",
+  verifyToken.verifyTokenAPI,
+  managerController.findInfortable
+);
 routes.put(
   "/:id",
   verifyToken.verifyTokenAPI,
-  managerController.getAllManager,
+  verifyToken.verifyTokenManager,
   managerController.updateManager
 );
 routes.delete(
   "/:id",
   verifyToken.verifyTokenAPI,
-  managerController.getAllManager,
+  verifyToken.verifyTokenManager,
   managerController.deleteManager
 );
 module.exports = routes;

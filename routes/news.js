@@ -48,6 +48,12 @@ routes.put(
   verifyToken.verifyTokenManager,
   newsController.updateNews
 );
+routes.put(
+  "/is-hot/:id",
+  verifyToken.verifyTokenAPI,
+  verifyToken.verifyTokenManager,
+  newsController.updateIsHot
+);
 routes.delete(
   "/:id",
   verifyToken.verifyTokenAPI,

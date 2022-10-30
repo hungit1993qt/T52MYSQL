@@ -200,6 +200,24 @@ const NewsController = {
       res.status(500).json(error);
     }
   },
+  updateIsHot: async (req, res) => {
+    try {
+      const news = await News.findByPk(req.params.id);
+      console.log(news);
+      if (!news) {
+        res.status(404).json("News is not found");
+        return;
+      }
+      await news.update({
+        $set: {
+          isHot: req.body.isHot,
+        },
+      });
+      res.status(200).json("Update is hot successfuly");
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
   deleteNews: async (req, res) => {
     try {
       const news = await News.findByPk(req.params.id);
