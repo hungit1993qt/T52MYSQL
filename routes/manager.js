@@ -4,7 +4,7 @@ const routes = require("express").Router();
 routes.post(
   "/",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
+  verifyToken.verifyTokenAdmin,
   managerController.addManager
 );
 routes.post("/login", verifyToken.verifyTokenAPI, managerController.login);
@@ -32,13 +32,13 @@ routes.get(
 routes.put(
   "/:id",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
+  verifyToken.verifyTokenAdmin,
   managerController.updateManager
 );
 routes.delete(
   "/:id",
   verifyToken.verifyTokenAPI,
-  verifyToken.verifyTokenManager,
+  verifyToken.verifyTokenAdmin,
   managerController.deleteManager
 );
 module.exports = routes;
