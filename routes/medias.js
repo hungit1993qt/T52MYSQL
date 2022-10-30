@@ -7,21 +7,18 @@ routes.post(
   verifyToken.verifyTokenManager,
   mediasController.addMedias
 );
-routes.get(
-  "/",
-  verifyToken.verifyTokenAPI,
-  mediasController.getAllMedias
-);
+routes.get("/", verifyToken.verifyTokenAPI, mediasController.getAllMedias);
 routes.get(
   "/detail/:id",
   verifyToken.verifyTokenAPI,
   mediasController.findMediasDetail
 );
 routes.get(
-  "/:key",
+  "/pagination",
   verifyToken.verifyTokenAPI,
-  mediasController.findMedias
+  mediasController.getAllMediasByPagination
 );
+routes.get("/:key", verifyToken.verifyTokenAPI, mediasController.findMedias);
 routes.put(
   "/:id",
   verifyToken.verifyTokenAPI,
