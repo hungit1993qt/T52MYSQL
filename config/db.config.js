@@ -1,5 +1,5 @@
 module.exports = {
-  DB: "t52_db",
+  DB: "t52",
   USER: "root",
   PASSWORD: '',
   HOST: "localhost",

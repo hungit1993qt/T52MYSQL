@@ -2,7 +2,7 @@ const db = require("./db");
 const { Sequelize, DataTypes } = require("sequelize");
 
 const Partner = db.define(
-  "Partner",
+  "partner",
   {
     // Model attributes are defined here
     name: {
@@ -19,19 +19,47 @@ const Partner = db.define(
   }
 );
 const TypeNews = db.define(
-  "TypeNews",
+  "typenews",
   {
+    id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   },
   {
-    tableName: "TypeNews",
+    tableName: "typenews",
+  }
+);
+const Menu = db.define(
+  "menu",
+  {
+    id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+  },
+  {
+    tableName: "menu",
   }
 );
 const Banner = db.define(
-  "Banner",
+  "banner",
   {
     id: {
       type: DataTypes.BIGINT,
@@ -54,7 +82,7 @@ const Banner = db.define(
   }
 );
 const uploadImages = db.define(
-  "UploadImages",
+  "uploadimages",
   {
     id: {
       type: DataTypes.BIGINT,
@@ -73,11 +101,11 @@ const uploadImages = db.define(
     },
   },
   {
-    tableName: "UploadImages",
+    tableName: "uploadimages",
   }
 );
 const News = db.define(
-  "News",
+  "news",
   {
     id: {
       type: DataTypes.BIGINT,
@@ -119,7 +147,7 @@ const News = db.define(
   }
 );
 const Media = db.define(
-  "Media",
+  "media",
   {
     id: {
       type: DataTypes.BIGINT,
@@ -142,7 +170,7 @@ const Media = db.define(
   }
 );
 const Question = db.define(
-  "Question",
+  "question",
   {
     id: {
       type: DataTypes.BIGINT,
@@ -161,11 +189,11 @@ const Question = db.define(
     },
   },
   {
-    tableName: "Question",
+    tableName: "question",
   }
 );
 const Feedback = db.define(
-  "Feedback",
+  "feedback",
   {
     id: {
       type: DataTypes.BIGINT,
@@ -192,11 +220,11 @@ const Feedback = db.define(
     },
   },
   {
-    tableName: "Feedback",
+    tableName: "feedback",
   }
 );
 const Manager = db.define(
-  "Manager",
+  "manager",
   {
     id: {
       type: DataTypes.BIGINT,
@@ -240,11 +268,11 @@ const Manager = db.define(
     },
   },
   {
-    tableName: "Manager",
+    tableName: "manager",
   }
 );
 const Client = db.define(
-  "Client",
+  "client",
   {
     // Model attributes are defined here
     id: {
@@ -283,7 +311,7 @@ const Client = db.define(
   }
 );
 const Store = db.define(
-  "Store",
+  "store",
   {
     id: {
       type: DataTypes.BIGINT,
@@ -322,13 +350,14 @@ const Store = db.define(
     },
   },
   {
-    tableName: "Store",
+    tableName: "store",
   }
 );
 
 db.sync();
 Store.hasMany(Client), Client.belongsTo(Store);
 module.exports = {
+  Menu,
   TypeNews,
   Store,
   Client,
