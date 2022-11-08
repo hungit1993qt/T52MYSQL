@@ -17,6 +17,11 @@ const uploadImagesRoutes = require("./routes/uploadImages");
 const typenewsRoutes = require("./routes/typenews");
 const questionRoutes = require("./routes/question");
 const feedbackRoutes = require("./routes/feedback");
+const menuRoutes = require("./routes/menu");
+const introduceRoutes = require("./routes/introduce");
+const corevalueRoutes = require("./routes/corevalue");
+const futureRoutes = require("./routes/future");
+const serviceRoutes = require("./routes/service");
 
 app.use(express.static(__dirname + "/"));
 app.use("/banner", bannerRoutes);
@@ -30,6 +35,11 @@ app.use("/upload-images/", uploadImagesRoutes);
 app.use("/typenews/", typenewsRoutes);
 app.use("/question/", questionRoutes);
 app.use("/feedback/", feedbackRoutes);
+app.use("/menu/", menuRoutes);
+app.use("/introduce/", introduceRoutes);
+app.use("/corevalue/", corevalueRoutes);
+app.use("/future/", futureRoutes);
+app.use("/service/", serviceRoutes);
 app.get("/", (req, res) => {
   res.status(200).json("welcom to API");
 });

@@ -58,6 +58,95 @@ const Menu = db.define(
     tableName: "menu",
   }
 );
+const Introduce = db.define(
+  "introduce",
+  {
+    id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "introduce",
+  }
+);
+const Service = db.define(
+  "service",
+  {
+    id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "service",
+  }
+);
+const Future = db.define(
+  "future",
+  {
+    id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "future",
+  }
+);
+const CoreValue = db.define(
+  "coreValue",
+  {
+    id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "coreValue",
+  }
+);
+
 const Banner = db.define(
   "banner",
   {
@@ -357,6 +446,10 @@ const Store = db.define(
 db.sync();
 Store.hasMany(Client), Client.belongsTo(Store);
 module.exports = {
+  Service,
+  Future,
+  CoreValue,
+  Introduce,
   Menu,
   TypeNews,
   Store,
